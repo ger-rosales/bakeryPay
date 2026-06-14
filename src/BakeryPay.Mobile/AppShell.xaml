@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:BakeryPay.Mobile.Views"
+       x:Class="BakeryPay.Mobile.AppShell"
+       FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource SurfaceStrong}"
+       Shell.ForegroundColor="{StaticResource TextPrimary}"
+       Shell.TitleColor="{StaticResource TextPrimary}"
+       Shell.TabBarBackgroundColor="{StaticResource SurfaceStrong}"
+       Shell.TabBarForegroundColor="{StaticResource Primary}"
+       Shell.TabBarTitleColor="{StaticResource Primary}"
+       Shell.TabBarUnselectedColor="{StaticResource TextMuted}"
+       Shell.TabBarDisabledColor="{StaticResource TextSubtle}">
+    <ShellContent Route="login"
+                  Title="Ingreso"
+                  ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Route="register-cashier"
+                  Title="Registro de cajera"
+                  ContentTemplate="{DataTemplate views:RegisterCashierPage}" />
+    <ShellContent Route="change-password"
+                  Title="Cambiar clave"
+                  ContentTemplate="{DataTemplate views:ChangePasswordPage}" />
+
+    <TabBar Route="main">
+        <Tab x:Name="DashboardTab"
+             Route="dashboard-tab"
+             Title="Inicio"
+             Icon="tab_home.png">
+            <ShellContent x:Name="DashboardShellContent"
+                          Route="dashboard"
+                          ContentTemplate="{DataTemplate views:DashboardPage}" />
+        </Tab>
+        <Tab x:Name="PaymentsTab"
+             Route="payments-tab"
+             Title="Pagos"
+             Icon="tab_payments.png">
+            <ShellContent x:Name="PaymentsShellContent"
+                          Route="payments"
+                          ContentTemplate="{DataTemplate views:PaymentsPage}" />
+        </Tab>
+        <Tab x:Name="NotificationsTab"
+             Route="notifications-tab"
+             Title="Alertas"
+             Icon="tab_notifications.png">
+            <ShellContent x:Name="NotificationsShellContent"
+                          Route="notifications"
+                          ContentTemplate="{DataTemplate views:NotificationsPage}" />
+        </Tab>
+        <Tab x:Name="SecurityTab"
+             Route="security-tab"
+             Title="Seguridad"
+             Icon="tab_security.png">
+            <ShellContent x:Name="SecurityShellContent"
+                          Route="security"
+                          ContentTemplate="{DataTemplate views:SecurityPage}" />
+        </Tab>
+    </TabBar>
+</Shell>

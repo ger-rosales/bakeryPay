@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.PaymentsPage"
+             Title="Plataforma de Pagos">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Pagos" Style="{StaticResource SectionTitleLabel}" />
+                        <Label Text="Gestiona pagos, historial y movimientos recientes."
+                               Style="{StaticResource SectionSubtitleLabel}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1"
+                            Text="+ Nuevo"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            IsVisible="{Binding IsInternalRole}"
+                            Command="{Binding OpenCreateModalCommand}" />
+                </Grid>
+
+                <CollectionView ItemsSource="{Binding Payments}">
+                    <CollectionView.EmptyView>
+                        <Label Text="No hay pagos disponibles."
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="{StaticResource TextMuted}" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardFrame}">
+                                <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                                    <Frame Style="{StaticResource BadgeFrame}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label Text="{Binding ProviderInitials}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </Frame>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding ProviderName}" FontAttributes="Bold" />
+                                        <Label Text="{Binding ReferenceNumber}" TextColor="{StaticResource TextMuted}" />
+                                        <Label Text="{Binding PaymentDateUtc, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
+                                               TextColor="{StaticResource TextMuted}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End">
+                                        <Label Text="{Binding Amount, StringFormat='USD {0:F2}'}"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding StatusDisplay}"
+                                               TextColor="{Binding StatusColor}"
+                                               HorizontalTextAlignment="End" />
+                                        <Button Text="Ver detalle"
+                                                Style="{StaticResource SecondaryButtonStyle}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenDetailCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label Text="{Binding Message}"
+                       TextColor="{StaticResource PrimaryDark}" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsCreateModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="14">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Registrar pago" FontSize="24" FontAttributes="Bold" />
+                                <Label Text="Completa la informacion para procesar un nuevo pago."
+                                       Style="{StaticResource SectionSubtitleLabel}" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="X"
+                                    WidthRequest="42"
+                                    HeightRequest="42"
+                                    Padding="0"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding CloseCreateModalCommand}" />
+                        </Grid>
+
+                        <Label Text="Proveedor" FontAttributes="Bold" />
+                        <Picker Title="Selecciona un proveedor"
+                                ItemsSource="{Binding Providers}"
+                                ItemDisplayBinding="{Binding BusinessName}"
+                                SelectedItem="{Binding SelectedProvider}" />
+
+                        <Label Text="Monto" FontAttributes="Bold" />
+                        <Entry Placeholder="0.00" Keyboard="Numeric" Text="{Binding Amount}" />
+
+                        <Label Text="Moneda" FontAttributes="Bold" />
+                        <Entry Placeholder="USD" Text="{Binding Currency}" />
+
+                        <Label Text="Fecha de pago" FontAttributes="Bold" />
+                        <DatePicker Date="{Binding PaymentDateUtc}" />
+
+                        <Label Text="Referencia" FontAttributes="Bold" />
+                        <Entry Placeholder="TRX-2026-0003" Text="{Binding ReferenceNumber}" />
+
+                        <Label Text="Estado inicial" FontAttributes="Bold" />
+                        <Picker Title="Selecciona un estado"
+                                ItemsSource="{Binding PaymentStatuses}"
+                                ItemDisplayBinding="{Binding Label}"
+                                SelectedItem="{Binding SelectedStatus}" />
+
+                        <Label Text="Descripcion" FontAttributes="Bold" />
+                        <Editor Placeholder="Agrega un detalle breve del pago" Text="{Binding Description}" />
+
+                        <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+
+                        <Button Text="Guardar pago"
+                                Style="{StaticResource PrimaryAccentButtonStyle}"
+                                Command="{Binding CreatePaymentCommand}" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

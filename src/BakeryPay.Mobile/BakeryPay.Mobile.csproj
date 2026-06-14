@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BakeryPay.Mobile</RootNamespace>
+    <ApplicationTitle>BakeryPay</ApplicationTitle>
+    <ApplicationId>com.bakerypay.mobile</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+    <NoWarn>$(NoWarn);NU1608</NoWarn>
+    <RestoreNoWarn>$(RestoreNoWarn);NU1608</RestoreNoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\**\*.png" />
+    <MauiImage Include="Resources\Images\**\*.svg" />
+    <MauiImage Remove="Resources\Images\tab_home.svg" />
+    <MauiImage Remove="Resources\Images\tab_payments.svg" />
+    <MauiImage Remove="Resources\Images\tab_notifications.svg" />
+    <MauiImage Remove="Resources\Images\tab_security.svg" />
+    <MauiImage Update="Resources\Images\login_logo.png" Resize="False" BaseSize="160,160" />
+    <MauiImage Update="Resources\Images\panaderia_mary_logo.png" Resize="False" BaseSize="320,320" />
+    <MauiImage Update="Resources\Images\tab_home.png" Resize="False" BaseSize="28,28" />
+    <MauiImage Update="Resources\Images\tab_payments.png" Resize="False" BaseSize="28,28" />
+    <MauiImage Update="Resources\Images\tab_notifications.png" Resize="False" BaseSize="28,28" />
+    <MauiImage Update="Resources\Images\tab_security.png" Resize="False" BaseSize="28,28" />
+    <MauiImage Update="Resources\Images\icon_edit.png" Resize="False" BaseSize="20,20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Platforms\iOS\**\*.cs" />
+    <None Remove="Platforms\iOS\Info.plist" />
+    <None Remove="Resources\Images\**\*" />
+  </ItemGroup>
+</Project>

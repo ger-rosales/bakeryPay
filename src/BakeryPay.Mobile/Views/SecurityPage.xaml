@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.SecurityPage"
+             Title="Seguridad">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Seguridad" Style="{StaticResource SectionTitleLabel}" />
+                <Label Text="Administra tu acceso, clave y registro biometrico del dispositivo."
+                       Style="{StaticResource SectionSubtitleLabel}" />
+            </VerticalStackLayout>
+
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding FullName}" FontAttributes="Bold" FontSize="20" />
+                        <Label Text="{Binding Email}" TextColor="{StaticResource TextMuted}" />
+                    </VerticalStackLayout>
+
+                    <Frame Style="{StaticResource CardFrame}"
+                           BackgroundColor="{StaticResource Accent}"
+                           Margin="0"
+                           Padding="16">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Acceso biometrico" FontAttributes="Bold" />
+                            <Label Text="{Binding BiometricStatus}" TextColor="{StaticResource TextMuted}" />
+                            <Button Text="Registrar biometria en este dispositivo"
+                                    Style="{StaticResource PrimaryAccentButtonStyle}"
+                                    Command="{Binding RegisterBiometricCommand}" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Button Text="Cambiar mi clave"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding OpenChangePasswordCommand}" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+                    <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

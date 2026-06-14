@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "BakeryPay.Application/1.0.0": {
+        "dependencies": {
+          "BakeryPay.Domain": "1.0.0"
+        },
+        "runtime": {
+          "BakeryPay.Application.dll": {}
+        }
+      },
+      "BakeryPay.Domain/1.0.0": {
+        "runtime": {
+          "BakeryPay.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BakeryPay.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BakeryPay.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

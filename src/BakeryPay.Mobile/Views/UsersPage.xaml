@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.UsersPage"
+             Title="Usuarios internos">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Usuarios" Style="{StaticResource SectionTitleLabel}" />
+                    <Label Text="Crea, actualiza y controla el acceso del personal interno."
+                           Style="{StaticResource SectionSubtitleLabel}" />
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*" ColumnSpacing="10">
+                    <Button Text="+ Nuevo usuario"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding OpenCreateModalCommand}" />
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Text="{Binding ToggleStatusButtonText}"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding ToggleStatusCommand}"
+                            IsVisible="{Binding IsUserSelected}" />
+                    <Button Grid.Column="1"
+                            Text="Resetear clave"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding ResetPasswordCommand}"
+                            IsVisible="{Binding IsUserSelected}" />
+                </Grid>
+
+                <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                <Label Text="{Binding LastTemporaryPassword}" TextColor="{StaticResource Success}" LineBreakMode="WordWrap" />
+
+                <CollectionView ItemsSource="{Binding Users}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding SelectedUser}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardFrame}">
+                                <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                                    <Frame Style="{StaticResource BadgeFrame}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Initials}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </Frame>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding FullName}" FontAttributes="Bold" />
+                                        <Label Text="{Binding RoleName}" TextColor="{StaticResource Primary}" />
+                                        <Label Text="{Binding Email}" TextColor="{StaticResource TextMuted}" />
+                                        <Label Text="{Binding IdentificationNumber}" TextColor="{StaticResource TextMuted}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End">
+                                        <ImageButton Source="icon_edit.png"
+                                                     BackgroundColor="Transparent"
+                                                     HeightRequest="28"
+                                                     WidthRequest="28"
+                                                     HorizontalOptions="End"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenUserEditModalCommand}"
+                                                     CommandParameter="{Binding .}" />
+                                        <Label Text="{Binding StatusDisplay}"
+                                               TextColor="{Binding StatusColor}"
+                                               HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding MustChangePassword, StringFormat='Clave temporal: {0}'}"
+                                               TextColor="{StaticResource TextMuted}"
+                                               HorizontalTextAlignment="End" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsFormModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="14">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Gestion de usuario" FontSize="24" FontAttributes="Bold" />
+                                <Label Text="Crea o actualiza una cuenta interna del sistema."
+                                       Style="{StaticResource SectionSubtitleLabel}" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="X"
+                                    WidthRequest="42"
+                                    HeightRequest="42"
+                                    Padding="0"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding CloseModalCommand}" />
+                        </Grid>
+
+                        <Label Text="Nombres" FontAttributes="Bold" />
+                        <Entry Placeholder="Nombres" Text="{Binding FirstName}" />
+
+                        <Label Text="Apellidos" FontAttributes="Bold" />
+                        <Entry Placeholder="Apellidos" Text="{Binding LastName}" />
+
+                        <Label Text="Identificacion" FontAttributes="Bold" />
+                        <Entry Placeholder="Identificacion" Text="{Binding IdentificationNumber}" />
+
+                        <Label Text="Correo" FontAttributes="Bold" />
+                        <Entry Placeholder="Correo" Keyboard="Email" Text="{Binding Email}" />
+
+                        <Label Text="Telefono" FontAttributes="Bold" />
+                        <Entry Placeholder="Telefono" Keyboard="Telephone" Text="{Binding Phone}" />
+
+                        <Label Text="Clave inicial" FontAttributes="Bold" IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}" />
+                        <Entry Placeholder="Clave inicial"
+                               IsPassword="True"
+                               Text="{Binding Password}"
+                               IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}" />
+
+                        <Label Text="Rol" FontAttributes="Bold" />
+                        <Picker Title="Selecciona un rol"
+                                ItemsSource="{Binding Roles}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedRole}" />
+
+                        <Button Text="Crear usuario"
+                                Style="{StaticResource PrimaryAccentButtonStyle}"
+                                Command="{Binding CreateUserCommand}"
+                                IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}" />
+                        <Button Text="Actualizar usuario"
+                                Style="{StaticResource PrimaryAccentButtonStyle}"
+                                Command="{Binding UpdateUserCommand}"
+                                IsVisible="{Binding IsUserSelected}" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

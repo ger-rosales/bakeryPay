@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "a0TSWhJGzfE=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\Usuario\\OneDrive\\Desktop\\BakeryPayApp\\src\\BakeryPay.Mobile\\BakeryPay.Mobile.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1012",
+      "level": "Error",
+      "message": "La versión de la plataforma no está presente para una o varias plataformas de destino, aunque se haya especificado una plataforma: net10.0-android",
+      "projectPath": "C:\\Users\\Usuario\\OneDrive\\Desktop\\BakeryPayApp\\src\\BakeryPay.Mobile\\BakeryPay.Mobile.csproj",
+      "filePath": "C:\\Users\\Usuario\\OneDrive\\Desktop\\BakeryPayApp\\src\\BakeryPay.Mobile\\BakeryPay.Mobile.csproj",
+      "targetGraphs": []
+    }
+  ]
+}

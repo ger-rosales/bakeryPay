@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.PaymentDetailPage"
+             Title="Detalle del pago">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+                <Frame Style="{StaticResource CardFrame}">
+                    <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                        <Frame Style="{StaticResource BadgeFrame}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                            <Label Text="{Binding Payment.ProviderInitials}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}" />
+                        </Frame>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="6">
+                            <Label Text="{Binding Payment.ReferenceNumber}" FontSize="22" FontAttributes="Bold" />
+                            <Label Text="{Binding Payment.ProviderName}" />
+                            <Label Text="{Binding Payment.RegisteredByFullName, StringFormat='Registrado por: {0}'}"
+                                   TextColor="{StaticResource TextMuted}" />
+                            <Label Text="{Binding Payment.PaymentDateUtc, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
+                                   TextColor="{StaticResource TextMuted}" />
+                            <Label Text="{Binding Payment.Currency, StringFormat='Moneda: {0}'}"
+                                   TextColor="{StaticResource TextMuted}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End">
+                            <Label Text="{Binding Payment.Amount, StringFormat='USD {0:F2}'}"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="End" />
+                            <Label Text="{Binding Payment.StatusDisplay}"
+                                   TextColor="{Binding Payment.StatusColor}"
+                                   HorizontalTextAlignment="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Descripcion" FontAttributes="Bold" />
+                        <Label Text="{Binding Payment.Description}" TextColor="{StaticResource TextMuted}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" IsVisible="{Binding CanManagePayments}">
+                    <Button Text="Actualizar estado"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding OpenStatusModalCommand}" />
+                    <Button Grid.Column="1"
+                            Text="Cargar comprobante"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding OpenReceiptModalCommand}" />
+                </Grid>
+
+                <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+
+                <Label Text="Comprobantes" FontAttributes="Bold" FontSize="18" />
+                <CollectionView ItemsSource="{Binding Receipts}">
+                    <CollectionView.EmptyView>
+                        <Label Text="Aun no hay comprobantes cargados." TextColor="{StaticResource TextMuted}" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardFrame}">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding FileName}" FontAttributes="Bold" />
+                                        <Label Text="{Binding UploadedAtUtc, StringFormat='Subido: {0:dd/MM/yyyy HH:mm}'}"
+                                               TextColor="{StaticResource TextMuted}" />
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1"
+                                            Text="Descargar"
+                                            Style="{StaticResource SecondaryButtonStyle}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DownloadReceiptCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsStatusModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <VerticalStackLayout Spacing="14">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Actualizar estado" FontSize="24" FontAttributes="Bold" />
+                            <Label Text="Selecciona el nuevo estado del pago."
+                                   Style="{StaticResource SectionSubtitleLabel}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="X"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Command="{Binding CloseStatusModalCommand}" />
+                    </Grid>
+
+                    <Picker Title="Estado"
+                            ItemsSource="{Binding PaymentStatuses}"
+                            ItemDisplayBinding="{Binding Label}"
+                            SelectedItem="{Binding SelectedStatus}" />
+
+                    <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                    <Button Text="Guardar cambios"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding UpdateStatusCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsReceiptModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <VerticalStackLayout Spacing="14">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Cargar comprobante" FontSize="24" FontAttributes="Bold" />
+                            <Label Text="Adjunta PDF o imagen del comprobante para este pago."
+                                   Style="{StaticResource SectionSubtitleLabel}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="X"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Command="{Binding CloseReceiptModalCommand}" />
+                    </Grid>
+
+                    <Label Text="Sube el archivo desde tu dispositivo."
+                           TextColor="{StaticResource TextMuted}" />
+                    <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                    <Button Text="Seleccionar archivo y cargar"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding UploadReceiptCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

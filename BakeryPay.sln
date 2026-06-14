@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryPay.Domain", "src\BakeryPay.Domain\BakeryPay.Domain.csproj", "{3B5B1800-9B2B-422F-AE63-E59756777A22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryPay.Application", "src\BakeryPay.Application\BakeryPay.Application.csproj", "{166705CE-DBE6-440B-98AA-9980B9A5029C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryPay.Infrastructure", "src\BakeryPay.Infrastructure\BakeryPay.Infrastructure.csproj", "{D5EBE209-F5AD-4EB0-B2B1-FF651C050912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryPay.Api", "src\BakeryPay.Api\BakeryPay.Api.csproj", "{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BakeryPay.Mobile", "src\BakeryPay.Mobile\BakeryPay.Mobile.csproj", "{F861F03B-649E-4D26-8D9E-FB809DF49A2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B5B1800-9B2B-422F-AE63-E59756777A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5B1800-9B2B-422F-AE63-E59756777A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5B1800-9B2B-422F-AE63-E59756777A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5B1800-9B2B-422F-AE63-E59756777A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166705CE-DBE6-440B-98AA-9980B9A5029C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166705CE-DBE6-440B-98AA-9980B9A5029C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166705CE-DBE6-440B-98AA-9980B9A5029C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166705CE-DBE6-440B-98AA-9980B9A5029C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5EBE209-F5AD-4EB0-B2B1-FF651C050912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5EBE209-F5AD-4EB0-B2B1-FF651C050912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5EBE209-F5AD-4EB0-B2B1-FF651C050912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5EBE209-F5AD-4EB0-B2B1-FF651C050912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F861F03B-649E-4D26-8D9E-FB809DF49A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F861F03B-649E-4D26-8D9E-FB809DF49A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F861F03B-649E-4D26-8D9E-FB809DF49A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F861F03B-649E-4D26-8D9E-FB809DF49A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B5B1800-9B2B-422F-AE63-E59756777A22} = {ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}
+		{166705CE-DBE6-440B-98AA-9980B9A5029C} = {ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}
+		{D5EBE209-F5AD-4EB0-B2B1-FF651C050912} = {ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}
+		{FFCCBCEA-339E-4283-B4F0-25D7874BE5EE} = {ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}
+		{F861F03B-649E-4D26-8D9E-FB809DF49A2D} = {ED0AA5A2-6E92-4665-A6BD-BB0AD29526E2}
+	EndGlobalSection
+EndGlobal

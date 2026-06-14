@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.DashboardPage"
+             Title="Plataforma de Pagos">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Dashboard" Style="{StaticResource SectionTitleLabel}" />
+                <Label Text="Resumen de tu actividad financiera y accesos rapidos."
+                       Style="{StaticResource SectionSubtitleLabel}" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="14" RowSpacing="14">
+                <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Start">
+                            <Label Text="$" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                        <Label Text="Balance Total" TextColor="{StaticResource TextMuted}" />
+                        <Label Text="{Binding TotalAmountPaid, StringFormat='USD {0:F2}'}" FontSize="24" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Start">
+                            <Label Text="P" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                        <Label Text="Pagos Realizados" TextColor="{StaticResource TextMuted}" />
+                        <Label Text="{Binding TotalPayments}" FontSize="24" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Start">
+                            <Label Text="PR" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                        <Label Text="Proveedores Activos" TextColor="{StaticResource TextMuted}" />
+                        <Label Text="{Binding TotalProviders}" FontSize="24" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="8">
+                        <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Start">
+                            <Label Text="N" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                        <Label Text="Alertas Pendientes" TextColor="{StaticResource TextMuted}" />
+                        <Label Text="{Binding PendingNotifications}" FontSize="24" FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding CanManageProviders}">
+                <Label Text="Gestion interna" FontSize="18" FontAttributes="Bold" />
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="56,*" ColumnSpacing="14">
+                            <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image Source="page_providers.svg" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Proveedores" FontAttributes="Bold" />
+                                <Label Text="Administra altas de proveedores y credenciales asociadas." Style="{StaticResource SectionSubtitleLabel}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Button Text="Abrir proveedores"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Command="{Binding OpenProvidersCommand}" />
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding CanManageUsers}">
+                <Frame Style="{StaticResource CardFrame}">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="56,*" ColumnSpacing="14">
+                            <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image Source="page_users.svg" HeightRequest="22" WidthRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Usuarios y roles" FontAttributes="Bold" />
+                                <Label Text="Controla cuentas internas, roles y permisos del sistema." Style="{StaticResource SectionSubtitleLabel}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Button Text="Usuarios"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding OpenUsersCommand}" />
+                            <Button Grid.Column="1"
+                                    Text="Roles"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding OpenRolesCommand}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <Label Text="Pagos recientes" FontAttributes="Bold" FontSize="18" />
+            <CollectionView ItemsSource="{Binding RecentPayments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource CardFrame}">
+                            <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                                <Frame Style="{StaticResource BadgeFrame}" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="PG" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="{Binding ProviderName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding PaymentDateUtc, StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource TextMuted}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="End">
+                                    <Label Text="{Binding Amount, StringFormat='USD {0:F2}'}" FontAttributes="Bold" HorizontalTextAlignment="End" />
+                                    <Label Text="{Binding ReferenceNumber}" TextColor="{StaticResource Primary}" HorizontalTextAlignment="End" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.ProvidersPage"
+             Title="Plataforma de Pagos">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Proveedores" Style="{StaticResource SectionTitleLabel}" />
+                        <Label Text="Administra proveedores, contactos y credenciales de acceso."
+                               Style="{StaticResource SectionSubtitleLabel}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1"
+                            Text="+ Crear"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            IsVisible="{Binding CanManageProviders}"
+                            Command="{Binding OpenCreateModalCommand}" />
+                </Grid>
+
+                <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                <Label Text="{Binding LastCredentials}" TextColor="{StaticResource Success}" LineBreakMode="WordWrap" />
+
+                <CollectionView ItemsSource="{Binding Providers}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardFrame}">
+                                <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                                    <Frame Style="{StaticResource BadgeFrame}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Initials}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </Frame>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding BusinessName}" FontAttributes="Bold" />
+                                        <Label Text="{Binding Code}" TextColor="{StaticResource TextMuted}" />
+                                        <Label Text="{Binding ContactName}" TextColor="{StaticResource TextMuted}" />
+                                        <Label Text="{Binding UserEmail}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="End">
+                                        <Label Text="{Binding TaxId}" FontAttributes="Bold" HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding Phone}" TextColor="{StaticResource TextMuted}" HorizontalTextAlignment="End" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsCreateModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="14">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Crear proveedor" FontSize="24" FontAttributes="Bold" />
+                                <Label Text="Registra los datos del proveedor y el usuario asociado."
+                                       Style="{StaticResource SectionSubtitleLabel}" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="X"
+                                    WidthRequest="42"
+                                    HeightRequest="42"
+                                    Padding="0"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding CloseCreateModalCommand}" />
+                        </Grid>
+
+                        <Label Text="Codigo" FontAttributes="Bold" />
+                        <Entry Placeholder="PRV-003" Text="{Binding Code}" />
+
+                        <Label Text="Razon social" FontAttributes="Bold" />
+                        <Entry Placeholder="Nombre del proveedor" Text="{Binding BusinessName}" />
+
+                        <Label Text="RUC" FontAttributes="Bold" />
+                        <Entry Placeholder="0999999999003" Keyboard="Numeric" Text="{Binding TaxId}" />
+
+                        <Label Text="Nombres del contacto" FontAttributes="Bold" />
+                        <Entry Placeholder="Nombres" Text="{Binding ContactFirstName}" />
+
+                        <Label Text="Apellidos del contacto" FontAttributes="Bold" />
+                        <Entry Placeholder="Apellidos" Text="{Binding ContactLastName}" />
+
+                        <Label Text="Identificacion del contacto" FontAttributes="Bold" />
+                        <Entry Placeholder="Cedula o identificacion" Text="{Binding ContactIdentificationNumber}" />
+
+                        <Label Text="Correo del contacto" FontAttributes="Bold" />
+                        <Entry Placeholder="correo@proveedor.com" Keyboard="Email" Text="{Binding ContactEmail}" />
+
+                        <Label Text="Telefono del contacto" FontAttributes="Bold" />
+                        <Entry Placeholder="0991234567" Keyboard="Telephone" Text="{Binding ContactPhone}" />
+
+                        <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+
+                        <Button Text="Crear proveedor"
+                                Style="{StaticResource PrimaryAccentButtonStyle}"
+                                Command="{Binding CreateProviderCommand}" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

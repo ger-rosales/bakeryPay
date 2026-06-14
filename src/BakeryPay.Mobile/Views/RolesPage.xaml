@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BakeryPay.Mobile.Views.RolesPage"
+             Title="Roles">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20,18,20,34" Spacing="18">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Roles" Style="{StaticResource SectionTitleLabel}" />
+                    <Label Text="Define roles, descripciones y su uso dentro del sistema."
+                           Style="{StaticResource SectionSubtitleLabel}" />
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*" ColumnSpacing="10">
+                    <Button Text="+ Nuevo rol"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding OpenCreateModalCommand}" />
+                </Grid>
+
+                <Button Text="Eliminar rol seleccionado"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Command="{Binding DeleteRoleCommand}"
+                        IsVisible="{Binding IsRoleSelected}" />
+
+                <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+
+                <CollectionView ItemsSource="{Binding Roles}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding SelectedRole}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardFrame}">
+                                <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="14">
+                                    <Frame Style="{StaticResource BadgeFrame}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Initials}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </Frame>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                        <Label Text="{Binding Description}" TextColor="{StaticResource TextMuted}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End">
+                                        <ImageButton Source="icon_edit.png"
+                                                     BackgroundColor="Transparent"
+                                                     HeightRequest="28"
+                                                     WidthRequest="28"
+                                                     HorizontalOptions="End"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenRoleEditModalCommand}"
+                                                     CommandParameter="{Binding .}" />
+                                        <Label Text="{Binding AssignedUsersCount, StringFormat='{0} usuarios'}"
+                                               TextColor="{StaticResource TextMuted}"
+                                               HorizontalTextAlignment="End" />
+                                        <Label Text="Sistema"
+                                               TextColor="{StaticResource Primary}"
+                                               HorizontalTextAlignment="End"
+                                               IsVisible="{Binding IsSystemRole}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid BackgroundColor="{StaticResource Overlay}"
+              IsVisible="{Binding IsFormModalVisible}"
+              Padding="18">
+            <Frame Style="{StaticResource ModalCardFrame}"
+                   VerticalOptions="Center">
+                <VerticalStackLayout Spacing="14">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Gestion de rol" FontSize="24" FontAttributes="Bold" />
+                            <Label Text="Crea o actualiza roles disponibles para usuarios internos."
+                                   Style="{StaticResource SectionSubtitleLabel}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="X"
+                                WidthRequest="42"
+                                HeightRequest="42"
+                                Padding="0"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Command="{Binding CloseModalCommand}" />
+                    </Grid>
+
+                    <Label Text="Nombre del rol" FontAttributes="Bold" />
+                    <Entry Placeholder="Nombre del rol"
+                           Text="{Binding Name}"
+                           IsReadOnly="{Binding IsSystemRoleSelected}" />
+
+                    <Label Text="Descripcion" FontAttributes="Bold" />
+                    <Editor Placeholder="Descripcion" Text="{Binding Description}" />
+
+                    <Label Text="Los roles base conservan su nombre y solo permiten ajustar descripcion."
+                           Style="{StaticResource SectionSubtitleLabel}"
+                           IsVisible="{Binding IsSystemRoleSelected}" />
+
+                    <Button Text="Crear rol"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding CreateRoleCommand}"
+                            IsVisible="{Binding IsRoleSelected, Converter={StaticResource InverseBooleanConverter}}" />
+                    <Button Text="Actualizar rol"
+                            Style="{StaticResource PrimaryAccentButtonStyle}"
+                            Command="{Binding UpdateRoleCommand}"
+                            IsVisible="{Binding IsRoleSelected}" />
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>
