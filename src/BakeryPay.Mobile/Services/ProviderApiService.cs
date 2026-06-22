@@ -32,4 +32,20 @@ public class ProviderApiService : BaseApiService
             contactEmail,
             contactPhone
         });
+
+    public Task<ApiEnvelope<ProviderModel>?> UpdateProviderAsync(
+        Guid providerId,
+        string taxId,
+        string contactFirstName,
+        string contactLastName,
+        string contactEmail,
+        string contactPhone) =>
+        PutAsync<object, ApiEnvelope<ProviderModel>>($"api/providers/{providerId}", new
+        {
+            taxId,
+            contactFirstName,
+            contactLastName,
+            contactEmail,
+            contactPhone
+        });
 }

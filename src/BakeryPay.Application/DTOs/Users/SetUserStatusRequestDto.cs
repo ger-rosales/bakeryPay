@@ -1,6 +1,0 @@
-namespace BakeryPay.Application.DTOs.Users;
-
-public class SetUserStatusRequestDto
-{
-    public bool IsActive { get; set; }
-}

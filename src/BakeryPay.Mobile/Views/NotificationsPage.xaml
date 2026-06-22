@@ -72,16 +72,25 @@
                                 Command="{Binding CloseCreateModalCommand}" />
                     </Grid>
 
-                    <Label Text="Proveedor" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="0">
+                        <Label Text="Proveedor" FontAttributes="Bold" />
+                        <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                    </HorizontalStackLayout>
                     <Picker Title="Selecciona un proveedor"
                             ItemsSource="{Binding Providers}"
                             ItemDisplayBinding="{Binding BusinessName}"
                             SelectedItem="{Binding SelectedProvider}" />
 
-                    <Label Text="Titulo" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="0">
+                        <Label Text="Titulo" FontAttributes="Bold" />
+                        <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                    </HorizontalStackLayout>
                     <Entry Placeholder="Nueva actualizacion" Text="{Binding TitleText}" />
 
-                    <Label Text="Mensaje" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="0">
+                        <Label Text="Mensaje" FontAttributes="Bold" />
+                        <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                    </HorizontalStackLayout>
                     <Editor Placeholder="Escribe el contenido de la notificacion" Text="{Binding MessageText}" />
 
                     <Label Text="Tipo" FontAttributes="Bold" />
@@ -91,6 +100,9 @@
                             SelectedItem="{Binding SelectedType}" />
 
                     <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                    <Label Text="* Campo obligatorio"
+                           FontSize="12"
+                           TextColor="{StaticResource Danger}" />
                     <Button Text="Enviar notificacion"
                             Style="{StaticResource PrimaryAccentButtonStyle}"
                             Command="{Binding CreateNotificationCommand}" />

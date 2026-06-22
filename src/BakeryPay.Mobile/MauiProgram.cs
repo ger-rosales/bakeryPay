@@ -16,7 +16,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton(new ApiOptions
         {
-            BaseUrl = "http://192.168.100.4:5162"
+            BaseUrl = "http://192.168.1.18:5162"
         });
 
         builder.Services.AddSingleton<SessionStorageService>();

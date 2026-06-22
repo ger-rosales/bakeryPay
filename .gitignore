@@ -1,2 +1,7 @@
 .vs
 /sql
+/src/BakeryPay.Backend/obj
+/src/BakeryPay.Backend/bin
+/src/backup
+/src/BakeryPay.Mobile/obj
+/src/BakeryPay.Mobile/bin

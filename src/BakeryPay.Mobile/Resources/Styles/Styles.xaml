@@ -30,6 +30,13 @@
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
 
+    <Style x:Key="RequiredAsteriskLabel" TargetType="Label">
+        <Setter Property="Text" Value="*" />
+        <Setter Property="TextColor" Value="{StaticResource Danger}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Margin" Value="3,0,0,0" />
+    </Style>
+
     <Style x:Key="CardFrame" TargetType="Frame">
         <Setter Property="CornerRadius" Value="24" />
         <Setter Property="Padding" Value="18" />

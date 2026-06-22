@@ -60,6 +60,12 @@ public class LoginViewModel : BaseViewModel
             IsBusy = true;
             Message = string.Empty;
 
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            {
+                Message = "Completa correo y contrasena.";
+                return;
+            }
+
             var response = await _authApiService.LoginAsync(Email, Password);
             if (response?.Success != true || response.Data is null)
             {

@@ -52,6 +52,20 @@ public class ChangePasswordViewModel : BaseViewModel
             IsBusy = true;
             Message = string.Empty;
 
+            if (string.IsNullOrWhiteSpace(CurrentPassword)
+                || string.IsNullOrWhiteSpace(NewPassword)
+                || string.IsNullOrWhiteSpace(ConfirmNewPassword))
+            {
+                Message = "Completa todos los campos obligatorios.";
+                return;
+            }
+
+            if (!string.Equals(NewPassword, ConfirmNewPassword, StringComparison.Ordinal))
+            {
+                Message = "La confirmacion de la nueva clave no coincide.";
+                return;
+            }
+
             var response = await _authApiService.ChangePasswordAsync(
                 CurrentPassword,
                 NewPassword,

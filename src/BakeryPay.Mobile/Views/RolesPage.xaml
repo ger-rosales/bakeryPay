@@ -90,17 +90,28 @@
                                 Command="{Binding CloseModalCommand}" />
                     </Grid>
 
-                    <Label Text="Nombre del rol" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="0">
+                        <Label Text="Nombre del rol" FontAttributes="Bold" />
+                        <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                    </HorizontalStackLayout>
                     <Entry Placeholder="Nombre del rol"
                            Text="{Binding Name}"
                            IsReadOnly="{Binding IsSystemRoleSelected}" />
 
-                    <Label Text="Descripcion" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="0">
+                        <Label Text="Descripcion" FontAttributes="Bold" />
+                        <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                    </HorizontalStackLayout>
                     <Editor Placeholder="Descripcion" Text="{Binding Description}" />
 
                     <Label Text="Los roles base conservan su nombre y solo permiten ajustar descripcion."
                            Style="{StaticResource SectionSubtitleLabel}"
                            IsVisible="{Binding IsSystemRoleSelected}" />
+
+                    <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                    <Label Text="* Campo obligatorio"
+                           FontSize="12"
+                           TextColor="{StaticResource Danger}" />
 
                     <Button Text="Crear rol"
                             Style="{StaticResource PrimaryAccentButtonStyle}"

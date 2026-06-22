@@ -156,6 +156,7 @@ public class UsersViewModel : BaseViewModel
         {
             IsBusy = true;
             IsFormModalVisible = false;
+            Message = string.Empty;
             var roles = await _roleApiService.GetRolesAsync();
             Roles.Clear();
             foreach (var role in roles.OrderBy(x => x.Name))
@@ -170,6 +171,10 @@ public class UsersViewModel : BaseViewModel
                 Users.Add(user);
             }
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cargar los usuarios. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -178,6 +183,17 @@ public class UsersViewModel : BaseViewModel
 
     private async Task CreateUserAsync()
     {
+        if (string.IsNullOrWhiteSpace(FirstName)
+            || string.IsNullOrWhiteSpace(LastName)
+            || string.IsNullOrWhiteSpace(IdentificationNumber)
+            || string.IsNullOrWhiteSpace(Email)
+            || string.IsNullOrWhiteSpace(Phone)
+            || string.IsNullOrWhiteSpace(Password))
+        {
+            Message = "Completa todos los campos obligatorios.";
+            return;
+        }
+
         if (SelectedRole is null)
         {
             Message = "Selecciona un rol.";
@@ -222,6 +238,10 @@ public class UsersViewModel : BaseViewModel
             IsFormModalVisible = false;
             await LoadAsync();
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible crear el usuario. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -230,6 +250,16 @@ public class UsersViewModel : BaseViewModel
 
     private async Task UpdateUserAsync()
     {
+        if (string.IsNullOrWhiteSpace(FirstName)
+            || string.IsNullOrWhiteSpace(LastName)
+            || string.IsNullOrWhiteSpace(IdentificationNumber)
+            || string.IsNullOrWhiteSpace(Email)
+            || string.IsNullOrWhiteSpace(Phone))
+        {
+            Message = "Completa todos los campos obligatorios.";
+            return;
+        }
+
         if (SelectedUser is null || SelectedRole is null)
         {
             Message = "Selecciona un usuario y un rol.";
@@ -278,6 +308,10 @@ public class UsersViewModel : BaseViewModel
             IsFormModalVisible = false;
             await LoadAsync();
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible actualizar el usuario. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -315,6 +349,10 @@ public class UsersViewModel : BaseViewModel
             await LoadAsync();
             SelectedUser = Users.FirstOrDefault(x => x.Id == response.Data.Id);
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cambiar el estado del usuario. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -351,6 +389,10 @@ public class UsersViewModel : BaseViewModel
             LastTemporaryPassword = $"Clave temporal para {response.Data.Email}: {response.Data.TemporaryPassword}";
             await LoadAsync();
             SelectedUser = Users.FirstOrDefault(x => x.Id == response.Data.UserId);
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible resetear la clave. {ex.Message}";
         }
         finally
         {

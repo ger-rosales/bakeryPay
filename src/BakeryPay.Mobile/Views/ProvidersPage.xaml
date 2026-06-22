@@ -45,6 +45,14 @@
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="End">
+                                        <ImageButton Source="icon_edit.png"
+                                                     BackgroundColor="Transparent"
+                                                     HeightRequest="28"
+                                                     WidthRequest="28"
+                                                     HorizontalOptions="End"
+                                                     IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CanManageProviders}"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenProviderEditModalCommand}"
+                                                     CommandParameter="{Binding .}" />
                                         <Label Text="{Binding TaxId}" FontAttributes="Bold" HorizontalTextAlignment="End" />
                                         <Label Text="{Binding Phone}" TextColor="{StaticResource TextMuted}" HorizontalTextAlignment="End" />
                                     </VerticalStackLayout>
@@ -65,8 +73,8 @@
                     <VerticalStackLayout Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
                             <VerticalStackLayout Spacing="4">
-                                <Label Text="Crear proveedor" FontSize="24" FontAttributes="Bold" />
-                                <Label Text="Registra los datos del proveedor y el usuario asociado."
+                                <Label Text="{Binding FormTitle}" FontSize="24" FontAttributes="Bold" />
+                                <Label Text="{Binding FormDescription}"
                                        Style="{StaticResource SectionSubtitleLabel}" />
                             </VerticalStackLayout>
                             <Button Grid.Column="1"
@@ -78,35 +86,83 @@
                                     Command="{Binding CloseCreateModalCommand}" />
                         </Grid>
 
-                        <Label Text="Codigo" FontAttributes="Bold" />
-                        <Entry Placeholder="PRV-003" Text="{Binding Code}" />
+                        <Frame Style="{StaticResource CardFrame}"
+                               Padding="12"
+                               Margin="0"
+                               IsVisible="{Binding IsEditMode}">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Proveedor seleccionado" FontAttributes="Bold" />
+                                <Label Text="{Binding SelectedProviderSummary}" TextColor="{StaticResource TextMuted}" />
+                            </VerticalStackLayout>
+                        </Frame>
 
-                        <Label Text="Razon social" FontAttributes="Bold" />
-                        <Entry Placeholder="Nombre del proveedor" Text="{Binding BusinessName}" />
+                        <HorizontalStackLayout Spacing="0"
+                                               IsVisible="{Binding IsCreateMode}">
+                            <Label Text="Codigo" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
+                        <Entry Placeholder="PRV-003"
+                               Text="{Binding Code}"
+                               IsVisible="{Binding IsCreateMode}" />
 
-                        <Label Text="RUC" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0"
+                                               IsVisible="{Binding IsCreateMode}">
+                            <Label Text="Razon social" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
+                        <Entry Placeholder="Nombre del proveedor"
+                               Text="{Binding BusinessName}"
+                               IsVisible="{Binding IsCreateMode}" />
+
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="RUC" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="0999999999003" Keyboard="Numeric" Text="{Binding TaxId}" />
 
-                        <Label Text="Nombres del contacto" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Nombres del contacto" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Nombres" Text="{Binding ContactFirstName}" />
 
-                        <Label Text="Apellidos del contacto" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Apellidos del contacto" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Apellidos" Text="{Binding ContactLastName}" />
 
-                        <Label Text="Identificacion del contacto" FontAttributes="Bold" />
-                        <Entry Placeholder="Cedula o identificacion" Text="{Binding ContactIdentificationNumber}" />
+                        <HorizontalStackLayout Spacing="0"
+                                               IsVisible="{Binding IsCreateMode}">
+                            <Label Text="Identificacion del contacto" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
+                        <Entry Placeholder="Cedula o identificacion"
+                               Text="{Binding ContactIdentificationNumber}"
+                               IsVisible="{Binding IsCreateMode}" />
 
-                        <Label Text="Correo del contacto" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Correo del contacto" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="correo@proveedor.com" Keyboard="Email" Text="{Binding ContactEmail}" />
 
                         <Label Text="Telefono del contacto" FontAttributes="Bold" />
                         <Entry Placeholder="0991234567" Keyboard="Telephone" Text="{Binding ContactPhone}" />
 
                         <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                        <Label Text="* Campo obligatorio"
+                               FontSize="12"
+                               TextColor="{StaticResource Danger}" />
 
                         <Button Text="Crear proveedor"
                                 Style="{StaticResource PrimaryAccentButtonStyle}"
-                                Command="{Binding CreateProviderCommand}" />
+                                Command="{Binding CreateProviderCommand}"
+                                IsVisible="{Binding IsCreateMode}" />
+                        <Button Text="Guardar cambios"
+                                Style="{StaticResource PrimaryAccentButtonStyle}"
+                                Command="{Binding UpdateProviderCommand}"
+                                IsVisible="{Binding IsEditMode}" />
                     </VerticalStackLayout>
                 </ScrollView>
             </Frame>

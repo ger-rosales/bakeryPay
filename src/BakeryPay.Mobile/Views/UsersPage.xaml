@@ -100,32 +100,59 @@
                                     Command="{Binding CloseModalCommand}" />
                         </Grid>
 
-                        <Label Text="Nombres" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Nombres" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Nombres" Text="{Binding FirstName}" />
 
-                        <Label Text="Apellidos" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Apellidos" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Apellidos" Text="{Binding LastName}" />
 
-                        <Label Text="Identificacion" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Identificacion" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Identificacion" Text="{Binding IdentificationNumber}" />
 
-                        <Label Text="Correo" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Correo" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Correo" Keyboard="Email" Text="{Binding Email}" />
 
-                        <Label Text="Telefono" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Telefono" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Telefono" Keyboard="Telephone" Text="{Binding Phone}" />
 
-                        <Label Text="Clave inicial" FontAttributes="Bold" IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}" />
+                        <HorizontalStackLayout Spacing="0"
+                                               IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}">
+                            <Label Text="Clave inicial" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="Clave inicial"
                                IsPassword="True"
                                Text="{Binding Password}"
                                IsVisible="{Binding IsUserSelected, Converter={StaticResource InverseBooleanConverter}}" />
 
-                        <Label Text="Rol" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Rol" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Picker Title="Selecciona un rol"
                                 ItemsSource="{Binding Roles}"
                                 ItemDisplayBinding="{Binding Name}"
                                 SelectedItem="{Binding SelectedRole}" />
+
+                        <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                        <Label Text="* Campo obligatorio"
+                               FontSize="12"
+                               TextColor="{StaticResource Danger}" />
 
                         <Button Text="Crear usuario"
                                 Style="{StaticResource PrimaryAccentButtonStyle}"

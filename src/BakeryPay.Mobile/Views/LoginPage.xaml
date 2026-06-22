@@ -30,14 +30,20 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="Correo electronico" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Correo electronico" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="tu@email.com"
                                Keyboard="Email"
                                Text="{Binding Email}" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="Contrasena" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Contrasena" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="********"
                                IsPassword="True"
                                Text="{Binding Password}" />

@@ -89,6 +89,30 @@ public class RegisterCashierViewModel : BaseViewModel
             IsBusy = true;
             Message = string.Empty;
 
+            if (string.IsNullOrWhiteSpace(FirstName)
+                || string.IsNullOrWhiteSpace(LastName)
+                || string.IsNullOrWhiteSpace(IdentificationNumber)
+                || string.IsNullOrWhiteSpace(Email)
+                || string.IsNullOrWhiteSpace(Phone)
+                || string.IsNullOrWhiteSpace(Password)
+                || string.IsNullOrWhiteSpace(ConfirmPassword))
+            {
+                Message = "Completa todos los campos obligatorios.";
+                return;
+            }
+
+            if (!string.Equals(Password, ConfirmPassword, StringComparison.Ordinal))
+            {
+                Message = "La confirmacion de la clave no coincide.";
+                return;
+            }
+
+            if (!AcceptPolicies)
+            {
+                Message = "Debes aceptar las politicas para continuar.";
+                return;
+            }
+
             var response = await _authApiService.RegisterCashierAsync(
                 FirstName,
                 LastName,

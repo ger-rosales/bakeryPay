@@ -96,12 +96,17 @@ public class RolesViewModel : BaseViewModel
         {
             IsBusy = true;
             IsFormModalVisible = false;
+            Message = string.Empty;
             var roles = await _roleApiService.GetRolesAsync();
             Roles.Clear();
             foreach (var role in roles.OrderBy(x => x.Name))
             {
                 Roles.Add(role);
             }
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cargar los roles. {ex.Message}";
         }
         finally
         {
@@ -111,6 +116,12 @@ public class RolesViewModel : BaseViewModel
 
     private async Task CreateRoleAsync()
     {
+        if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Description))
+        {
+            Message = "Completa todos los campos obligatorios.";
+            return;
+        }
+
         try
         {
             IsBusy = true;
@@ -128,6 +139,10 @@ public class RolesViewModel : BaseViewModel
             IsFormModalVisible = false;
             await LoadAsync();
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible crear el rol. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -139,6 +154,12 @@ public class RolesViewModel : BaseViewModel
         if (SelectedRole is null)
         {
             Message = "Selecciona un rol para editar.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Description))
+        {
+            Message = "Completa todos los campos obligatorios.";
             return;
         }
 
@@ -157,6 +178,10 @@ public class RolesViewModel : BaseViewModel
             Message = response.Message;
             IsFormModalVisible = false;
             await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible actualizar el rol. {ex.Message}";
         }
         finally
         {
@@ -188,6 +213,10 @@ public class RolesViewModel : BaseViewModel
             ResetForm();
             IsFormModalVisible = false;
             await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible eliminar el rol. {ex.Message}";
         }
         finally
         {

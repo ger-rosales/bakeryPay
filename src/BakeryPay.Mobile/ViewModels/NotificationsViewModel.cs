@@ -107,6 +107,7 @@ public class NotificationsViewModel : BaseViewModel
         try
         {
             IsBusy = true;
+            Message = string.Empty;
 
             Guid? providerId;
             if (IsInternalRole)
@@ -143,6 +144,10 @@ public class NotificationsViewModel : BaseViewModel
                 Notifications.Add(item);
             }
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cargar las notificaciones. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -153,12 +158,13 @@ public class NotificationsViewModel : BaseViewModel
     {
         if (!IsInternalRole || SelectedProvider is null)
         {
+            Message = "Selecciona un proveedor.";
             return;
         }
 
         if (string.IsNullOrWhiteSpace(TitleText) || string.IsNullOrWhiteSpace(MessageText))
         {
-            Message = "Completa titulo y mensaje.";
+            Message = "Completa todos los campos obligatorios.";
             return;
         }
 
@@ -186,6 +192,10 @@ public class NotificationsViewModel : BaseViewModel
             Message = response.Message;
             await LoadAsync();
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible crear la notificacion. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -199,8 +209,16 @@ public class NotificationsViewModel : BaseViewModel
             return;
         }
 
-        await _notificationApiService.MarkAsReadAsync(notification.Id);
-        await LoadAsync();
+        try
+        {
+            Message = string.Empty;
+            await _notificationApiService.MarkAsReadAsync(notification.Id);
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible actualizar la notificacion. {ex.Message}";
+        }
     }
 
     private Task OpenCreateModalAsync()

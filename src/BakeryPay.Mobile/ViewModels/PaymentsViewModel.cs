@@ -154,6 +154,10 @@ public class PaymentsViewModel : BaseViewModel
             var items = await _paymentApiService.GetPaymentsByProviderAsync(session.ProviderId.Value);
             ReplacePayments(items);
         }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cargar los pagos. {ex.Message}";
+        }
         finally
         {
             IsBusy = false;
@@ -175,7 +179,13 @@ public class PaymentsViewModel : BaseViewModel
 
         if (Amount <= 0 || string.IsNullOrWhiteSpace(ReferenceNumber))
         {
-            Message = "Completa proveedor, monto y referencia.";
+            Message = "Completa todos los campos obligatorios.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Currency))
+        {
+            Message = "Completa todos los campos obligatorios.";
             return;
         }
 
@@ -203,6 +213,10 @@ public class PaymentsViewModel : BaseViewModel
             IsCreateModalVisible = false;
             Message = response.Message;
             await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible registrar el pago. {ex.Message}";
         }
         finally
         {

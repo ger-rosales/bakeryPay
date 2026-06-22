@@ -9,6 +9,7 @@ public partial class AppShell : Shell
     private readonly SessionStorageService _sessionStorageService;
     private readonly ToolbarItem _logoutToolbarItem;
     private bool _initialized;
+    private bool _isLoggingOut;
 
     public AppShell(SessionStorageService sessionStorageService)
     {
@@ -53,27 +54,42 @@ public partial class AppShell : Shell
         try
         {
             var session = await _sessionStorageService.GetSessionAsync();
-            ApplyRoleVisibility(session);
-
             var requiresPasswordChange = session is not null && session.MustChangePassword;
+            if (session is null)
+            {
+                SetLogoutVisibility(false);
+                await NavigateAsync("//login");
+                return;
+            }
 
-            var targetRoute = session is null
-                ? "//login"
-                : requiresPasswordChange
-                    ? "//change-password"
-                    : session.Role == "Provider"
-                        ? "//main/payments-tab"
-                        : "//main/dashboard-tab";
+            var targetRoute = GetTargetRoute(session, requiresPasswordChange);
 
-            await GoToAsync(targetRoute);
+            if (requiresPasswordChange)
+            {
+                await NavigateAsync(targetRoute);
+                await ApplyRoleVisibilityAsync(session);
+                return;
+            }
+
+            await ApplyRoleVisibilityAsync(session);
+            await NavigateAsync(targetRoute);
         }
         catch
         {
             _sessionStorageService.ClearSession();
-            ApplyRoleVisibility(null);
-            await GoToAsync("//login");
+            await NavigateAsync("//login");
+            await ApplyRoleVisibilityAsync(null);
         }
     }
+
+    private static string GetTargetRoute(AuthSession? session, bool requiresPasswordChange) =>
+        session is null
+            ? "//login"
+            : requiresPasswordChange
+                ? "//change-password"
+                : session.Role == "Provider"
+                    ? "//main/payments-tab"
+                    : "//main/dashboard-tab";
 
     private void ApplyRoleVisibility(AuthSession? session)
     {
@@ -112,13 +128,37 @@ public partial class AppShell : Shell
 
     private async void OnLogoutClicked(object? sender, EventArgs e)
     {
-        var confirm = await DisplayAlertAsync("Cerrar sesion", "Deseas salir de BakeryPay?", "Si", "No");
-        if (!confirm)
+        if (_isLoggingOut)
         {
             return;
         }
 
-        _sessionStorageService.ClearSession();
-        await RefreshNavigationAsync();
+        try
+        {
+            _isLoggingOut = true;
+            var confirm = await DisplayAlertAsync("Cerrar sesion", "Deseas salir de BakeryPay?", "Si", "No");
+            if (!confirm)
+            {
+                return;
+            }
+
+            _sessionStorageService.ClearSession();
+            SetLogoutVisibility(false);
+            await NavigateAsync("//login");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Error", $"No fue posible cerrar la sesion. {ex.Message}", "Aceptar");
+        }
+        finally
+        {
+            _isLoggingOut = false;
+        }
     }
+
+    private Task NavigateAsync(string route) =>
+        MainThread.InvokeOnMainThreadAsync(() => GoToAsync(route));
+
+    private Task ApplyRoleVisibilityAsync(AuthSession? session) =>
+        MainThread.InvokeOnMainThreadAsync(() => ApplyRoleVisibility(session));
 }

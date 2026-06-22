@@ -91,25 +91,43 @@
                                     Command="{Binding CloseCreateModalCommand}" />
                         </Grid>
 
-                        <Label Text="Proveedor" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Proveedor" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Picker Title="Selecciona un proveedor"
                                 ItemsSource="{Binding Providers}"
                                 ItemDisplayBinding="{Binding BusinessName}"
                                 SelectedItem="{Binding SelectedProvider}" />
 
-                        <Label Text="Monto" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Monto" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="0.00" Keyboard="Numeric" Text="{Binding Amount}" />
 
-                        <Label Text="Moneda" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Moneda" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="USD" Text="{Binding Currency}" />
 
-                        <Label Text="Fecha de pago" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Fecha de pago" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <DatePicker Date="{Binding PaymentDateUtc}" />
 
-                        <Label Text="Referencia" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Referencia" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Entry Placeholder="TRX-2026-0003" Text="{Binding ReferenceNumber}" />
 
-                        <Label Text="Estado inicial" FontAttributes="Bold" />
+                        <HorizontalStackLayout Spacing="0">
+                            <Label Text="Estado inicial" FontAttributes="Bold" />
+                            <Label Style="{StaticResource RequiredAsteriskLabel}" />
+                        </HorizontalStackLayout>
                         <Picker Title="Selecciona un estado"
                                 ItemsSource="{Binding PaymentStatuses}"
                                 ItemDisplayBinding="{Binding Label}"
@@ -119,6 +137,9 @@
                         <Editor Placeholder="Agrega un detalle breve del pago" Text="{Binding Description}" />
 
                         <Label Text="{Binding Message}" TextColor="{StaticResource PrimaryDark}" />
+                        <Label Text="* Campo obligatorio"
+                               FontSize="12"
+                               TextColor="{StaticResource Danger}" />
 
                         <Button Text="Guardar pago"
                                 Style="{StaticResource PrimaryAccentButtonStyle}"

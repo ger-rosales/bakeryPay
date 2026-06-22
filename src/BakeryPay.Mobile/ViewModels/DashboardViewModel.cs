@@ -14,6 +14,7 @@ public class DashboardViewModel : BaseViewModel
     private int _pendingNotifications;
     private bool _canManageProviders;
     private bool _canManageUsers;
+    private string _message = string.Empty;
 
     public DashboardViewModel(DashboardApiService dashboardApiService, SessionStorageService sessionStorageService)
     {
@@ -63,6 +64,12 @@ public class DashboardViewModel : BaseViewModel
         set => SetProperty(ref _canManageUsers, value);
     }
 
+    public string Message
+    {
+        get => _message;
+        set => SetProperty(ref _message, value);
+    }
+
     public ObservableCollection<RecentPaymentModel> RecentPayments { get; }
     public AsyncCommand RefreshCommand { get; }
     public AsyncCommand OpenProvidersCommand { get; }
@@ -74,6 +81,7 @@ public class DashboardViewModel : BaseViewModel
         try
         {
             IsBusy = true;
+            Message = string.Empty;
             var session = await _sessionStorageService.GetSessionAsync();
             CanManageProviders = session?.Role is "Administrator" or "Cashier";
             CanManageUsers = session?.Role is "Administrator";
@@ -94,6 +102,10 @@ public class DashboardViewModel : BaseViewModel
             {
                 RecentPayments.Add(item);
             }
+        }
+        catch (Exception ex)
+        {
+            Message = $"No fue posible cargar el dashboard. {ex.Message}";
         }
         finally
         {

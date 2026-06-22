@@ -7,6 +7,8 @@ public class ProviderModel
     public string BusinessName { get; set; } = string.Empty;
     public string TaxId { get; set; } = string.Empty;
     public string ContactName { get; set; } = string.Empty;
+    public string ContactFirstName { get; set; } = string.Empty;
+    public string ContactLastName { get; set; } = string.Empty;
     public string ContactIdentificationNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
